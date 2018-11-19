@@ -1,0 +1,3 @@
+[submodule "vendor/pinyin"]
+	path = vendor/pinyin
+	url = https://github.com/jifei/Pinyin.git
