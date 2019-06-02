@@ -11,6 +11,12 @@ Version: 0.0.1
 require_once __DIR__ . '/vendor/pinyin/Pinyin.php';
 
 add_shortcode('add_chinese_tags', 'chinese_tag_list_load_tags');
+add_action('rest_api_init', function () {
+  register_rest_route('chinese-tag-list/v1', '/tags', array(
+    'methods' => 'GET',
+    'callback' => 'chinese_tag_list_load_tags_api',
+  ));
+});
 
 function chinese_tag_list_load_tags(){
   $origin_tags = get_tags();
@@ -25,6 +31,12 @@ function chinese_tag_list_load_tags(){
     }
     echo '</ul>';
   }
+}
+
+function chinese_tag_list_load_tags_api(){
+  $origin_tags = get_tags();
+  $sorted_tags = _chinese_tag_list_sort_tags($origin_tags);
+  return $sorted_tags;
 }
 
 function _chinese_tag_list_sort_tags($tags){
